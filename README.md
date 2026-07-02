@@ -1,4 +1,4 @@
-# Chess-3-Different-Versions-Lux-et-Mat-
+# Chess-and-3-Different-Versions
 
 Project title: Lux et Mat
 Group members: Milind Kapadiya, Allen Huang, Mason Mifflin
