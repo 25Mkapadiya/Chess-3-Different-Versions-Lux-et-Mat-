@@ -32,6 +32,12 @@
     }
     p, li { font-family: Arial, sans-serif; line-height: 1.55; }
     .intro { max-width: 620px; margin: 0 auto 28px; }
+    .downloads {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
     .download {
       display: inline-block;
       padding: 13px 22px;
@@ -62,18 +68,32 @@
 
     <p class="intro">Download the original Lux et Mat Java desktop game. The interface, artwork, game modes, and gameplay remain unchanged from the original project.</p>
 
-    <a class="download" href="downloads/Lux-et-Mat-Mac-Compatible.zip">Download for Mac</a>
+    <div class="downloads">
+      <a class="download" href="downloads/Lux-et-Mat-Mac-Compatible.zip">Download for Mac</a>
+      <a class="download" href="downloads/Lux-et-Mat-Windows.zip">Download for Windows</a>
+    </div>
 
     <section>
       <h2>How to run it on Mac</h2>
       <ol>
-        <li>Download and unzip the file.</li>
+        <li>Download and unzip the Mac file.</li>
         <li>Keep <code>Lux-et-Mat.jar</code> and the <code>resources</code> folder together.</li>
         <li>Open Terminal and run <code>java -version</code>. Java 8 or newer is required.</li>
         <li>Type <code>cd </code>, drag the unzipped folder into Terminal, and press Return.</li>
         <li>Run <code>java -jar Lux-et-Mat.jar</code>.</li>
       </ol>
-      <p class="note">GitHub Pages hosts the download. The Java Swing game itself runs locally on your laptop, not inside the browser.</p>
+    </section>
+
+    <section>
+      <h2>How to run it on Windows</h2>
+      <ol>
+        <li>Download and unzip the Windows file.</li>
+        <li>Keep all files in the unzipped folder together.</li>
+        <li>Double-click <code>Run-Lux-et-Mat.bat</code>.</li>
+        <li>If Windows asks for permission, choose to run the file.</li>
+        <li>Java 8 or newer is required.</li>
+      </ol>
+      <p class="note">GitHub Pages hosts the downloads. The Java Swing game itself runs locally on your laptop, not inside the browser.</p>
     </section>
   </main>
 </body>
