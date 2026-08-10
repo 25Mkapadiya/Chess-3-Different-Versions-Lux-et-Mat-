@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lux et Mat</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 32px 20px;
+      background: #fff;
+      color: #111;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+    main { width: min(760px, 100%); text-align: center; }
+    h1 {
+      margin: 0 0 10px;
+      color: rgb(3, 52, 106);
+      font-size: clamp(52px, 10vw, 100px);
+      line-height: .95;
+    }
+    .byline {
+      margin-bottom: 40px;
+      color: rgb(153, 0, 0);
+      font-size: 18px;
+      font-weight: 700;
+    }
+    p, li { font-family: Arial, sans-serif; line-height: 1.55; }
+    .intro { max-width: 620px; margin: 0 auto 28px; }
+    .download {
+      display: inline-block;
+      padding: 13px 22px;
+      border: 1px solid #999;
+      border-radius: 4px;
+      background: #eee;
+      color: #111;
+      font: 600 16px Arial, sans-serif;
+      text-decoration: none;
+      box-shadow: 0 1px 2px rgba(0,0,0,.12);
+    }
+    .download:hover { background: #e2e2e2; }
+    section {
+      max-width: 620px;
+      margin: 42px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid #ddd;
+      text-align: left;
+    }
+    code { background: #f3f3f3; padding: 2px 5px; border-radius: 3px; }
+    .note { color: #666; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Lux et Mat</h1>
+    <div class="byline">by Allen Huang, Milind Kapadiya, and Mason Mifflin</div>
+
+    <p class="intro">Download the original Lux et Mat Java desktop game. The interface, artwork, game modes, and gameplay remain unchanged from the original project.</p>
+
+    <a class="download" href="downloads/Lux-et-Mat-Mac-Compatible.zip">Download for Mac</a>
+
+    <section>
+      <h2>How to run it on Mac</h2>
+      <ol>
+        <li>Download and unzip the file.</li>
+        <li>Keep <code>Lux-et-Mat.jar</code> and the <code>resources</code> folder together.</li>
+        <li>Open Terminal and run <code>java -version</code>. Java 8 or newer is required.</li>
+        <li>Type <code>cd </code>, drag the unzipped folder into Terminal, and press Return.</li>
+        <li>Run <code>java -jar Lux-et-Mat.jar</code>.</li>
+      </ol>
+      <p class="note">GitHub Pages hosts the download. The Java Swing game itself runs locally on your laptop, not inside the browser.</p>
+    </section>
+  </main>
+</body>
+</html>
