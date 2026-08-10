@@ -1,0 +1,77 @@
+name: Build desktop download
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'downloads/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Compile original Lux et Mat project for Java 8+
+        run: |
+          mkdir -p build/classes build/package/resources/chess downloads
+          javac --release 8 -d build/classes \
+            Bishop.java \
+            Board.java \
+            BombChess.java \
+            Bulldog.java \
+            BulldogChess.java \
+            CaptureChess.java \
+            ChessBoardGUI.java \
+            King.java \
+            Knight.java \
+            NormalChess.java \
+            Pawn.java \
+            Piece.java \
+            Queen.java \
+            Rook.java \
+            Scene.java
+
+      - name: Package runnable JAR and original artwork
+        run: |
+          jar cfe build/package/Lux-et-Mat.jar ChessBoardGUI -C build/classes .
+          cp blue_bishop.png blue_king.png blue_knight.png blue_pawn.png blue_queen.png blue_rook.png \
+             red_bishop.png red_king.png red_knight.png red_pawn.png red_queen.png red_rook.png bulldog.png \
+             build/package/resources/chess/
+          cat > build/package/OPEN-ON-MAC.txt <<'EOF'
+          LUX ET MAT - MAC
+
+          1. Keep Lux-et-Mat.jar and the resources folder together.
+          2. Open Terminal.
+          3. Check Java with: java -version
+             Java 8 or newer is required.
+          4. Type: cd 
+             Then drag this unzipped folder into Terminal and press Return.
+          5. Run: java -jar Lux-et-Mat.jar
+
+          This is the original Lux et Mat Java Swing project packaged for local use.
+          EOF
+          (cd build/package && zip -r ../../downloads/Lux-et-Mat-Mac-Compatible.zip .)
+
+      - name: Publish downloadable ZIP to repository
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add downloads/Lux-et-Mat-Mac-Compatible.zip
+          if git diff --cached --quiet; then
+            echo 'Desktop package is already current.'
+            exit 0
+          fi
+          git commit -m 'Build Mac-compatible Lux et Mat desktop package'
+          git push
