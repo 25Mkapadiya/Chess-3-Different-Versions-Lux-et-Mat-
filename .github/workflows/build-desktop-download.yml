@@ -1,4 +1,4 @@
-name: Build desktop download
+name: Build desktop downloads
 
 on:
   push:
@@ -25,7 +25,7 @@ jobs:
 
       - name: Compile original Lux et Mat project for Java 8+
         run: |
-          mkdir -p build/classes build/package/resources/chess downloads
+          mkdir -p build/classes build/mac/resources/chess build/windows/resources/chess downloads
           javac --release 8 -d build/classes \
             Bishop.java \
             Board.java \
@@ -45,11 +45,20 @@ jobs:
 
       - name: Package runnable JAR and original artwork
         run: |
-          jar cfe build/package/Lux-et-Mat.jar ChessBoardGUI -C build/classes .
+          jar cfe build/Lux-et-Mat.jar ChessBoardGUI -C build/classes .
+
+          cp build/Lux-et-Mat.jar build/mac/Lux-et-Mat.jar
+          cp build/Lux-et-Mat.jar build/windows/Lux-et-Mat.jar
+
           cp blue_bishop.png blue_king.png blue_knight.png blue_pawn.png blue_queen.png blue_rook.png \
              red_bishop.png red_king.png red_knight.png red_pawn.png red_queen.png red_rook.png bulldog.png \
-             build/package/resources/chess/
-          cat > build/package/OPEN-ON-MAC.txt <<'EOF'
+             build/mac/resources/chess/
+
+          cp blue_bishop.png blue_king.png blue_knight.png blue_pawn.png blue_queen.png blue_rook.png \
+             red_bishop.png red_king.png red_knight.png red_pawn.png red_queen.png red_rook.png bulldog.png \
+             build/windows/resources/chess/
+
+          cat > build/mac/OPEN-ON-MAC.txt <<'EOF'
           LUX ET MAT - MAC
 
           1. Keep Lux-et-Mat.jar and the resources folder together.
@@ -62,16 +71,43 @@ jobs:
 
           This is the original Lux et Mat Java Swing project packaged for local use.
           EOF
-          (cd build/package && zip -r ../../downloads/Lux-et-Mat-Mac-Compatible.zip .)
 
-      - name: Publish downloadable ZIP to repository
+          cat > build/windows/Run-Lux-et-Mat.bat <<'EOF'
+          @echo off
+          cd /d "%~dp0"
+          java -jar Lux-et-Mat.jar
+          if errorlevel 1 (
+            echo.
+            echo Lux et Mat could not start.
+            echo Make sure Java 8 or newer is installed, then try again.
+            echo.
+            pause
+          )
+          EOF
+
+          cat > build/windows/OPEN-ON-WINDOWS.txt <<'EOF'
+          LUX ET MAT - WINDOWS
+
+          1. Keep Lux-et-Mat.jar and the resources folder together.
+          2. Double-click Run-Lux-et-Mat.bat.
+          3. Java 8 or newer is required.
+          4. If the launcher does not work, open Command Prompt in this folder and run:
+             java -jar Lux-et-Mat.jar
+
+          This is the original Lux et Mat Java Swing project packaged for local use.
+          EOF
+
+          (cd build/mac && zip -r ../../downloads/Lux-et-Mat-Mac-Compatible.zip .)
+          (cd build/windows && zip -r ../../downloads/Lux-et-Mat-Windows.zip .)
+
+      - name: Publish downloadable ZIPs to repository
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add downloads/Lux-et-Mat-Mac-Compatible.zip
+          git add downloads/Lux-et-Mat-Mac-Compatible.zip downloads/Lux-et-Mat-Windows.zip
           if git diff --cached --quiet; then
-            echo 'Desktop package is already current.'
+            echo 'Desktop packages are already current.'
             exit 0
           fi
-          git commit -m 'Build Mac-compatible Lux et Mat desktop package'
+          git commit -m 'Build Lux et Mat desktop packages'
           git push
